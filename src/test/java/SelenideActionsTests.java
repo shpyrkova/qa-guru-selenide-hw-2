@@ -34,7 +34,7 @@ public class SelenideActionsTests {
     @Test
     void checkDragAndDropWithActionsTest() {
         open("https://the-internet.herokuapp.com/drag_and_drop");
-        actions().moveToElement($("#column-a")).clickAndHold().moveToElement($("#column-b"))
+        actions().clickAndHold($("#column-a")).moveToElement($("#column-b"))
                 .release().perform();
         $("#column-a").shouldHave(text("B"));
         $("#column-b").shouldHave(text("A"));
