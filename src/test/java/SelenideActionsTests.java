@@ -1,4 +1,5 @@
 import com.codeborne.selenide.Configuration;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +16,11 @@ public class SelenideActionsTests {
         Configuration.browserSize = "1920x1080";
     }
 
+    @AfterEach
+    void afterEach() {
+        closeWebDriver();
+    }
+
     @Test
     void checkEnterprisePageTest() {
         open("https://github.com");
@@ -26,17 +32,21 @@ public class SelenideActionsTests {
     @Test
     void checkDragAndDropTest() {
         open("https://the-internet.herokuapp.com/drag_and_drop");
-        $("#column-a").dragAndDrop(to("#column-b"));
-        $("#column-a").shouldHave(text("B"));
-        $("#column-b").shouldHave(text("A"));
+        $("#column-a header").shouldHave(text("A"));
+        $("#column-b header").shouldHave(text("B"));
+        $("#column-a header").dragAndDrop(to("#column-b"));
+        $("#column-a header").shouldHave(text("B"));
+        $("#column-b header").shouldHave(text("A"));
     }
 
     @Test
     void checkDragAndDropWithActionsTest() {
         open("https://the-internet.herokuapp.com/drag_and_drop");
+        $("#column-a header").shouldHave(text("A"));
+        $("#column-b header").shouldHave(text("B"));
         actions().clickAndHold($("#column-a")).moveToElement($("#column-b"))
                 .release().perform();
-        $("#column-a").shouldHave(text("B"));
-        $("#column-b").shouldHave(text("A"));
+        $("#column-a header").shouldHave(text("B"));
+        $("#column-b header").shouldHave(text("A"));
     }
 }
